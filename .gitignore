@@ -1,0 +1,28 @@
+.idea
+_dist
+server/src/interfaces/assets/ui
+server/src/interfaces/assets/docs
+
+# System files
+.DS_Store
+Thumbs.db
+
+# ---------- CLIENT --------
+# Client - Compiled Output
+/client/dist
+/client/tmp
+/client/out-tsc
+/client/bazel-out
+
+# Client - Node
+/client/node_modules
+/client/npm-debug.log
+
+# Client - Misc
+/client/.angular
+/client/connect.lock
+/client/coverage
+/client/libpeerconnection.log
+/clienttestem.log
+/client/typings
+# ---------- END CLIENT --------

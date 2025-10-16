@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="reset" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="blaze-tools" />
+    <working_directory value="$PROJECT_DIR$" />
+    <kind value="PACKAGE" />
+    <package value="github.com/geniot/blaze-tools/src" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/src/main.go" />
+    <method v="2" />
+  </configuration>
+</component>
