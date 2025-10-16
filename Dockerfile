@@ -8,7 +8,7 @@ COPY go.sum .
 RUN go mod download
 COPY . .
 # Build the Go application
-RUN go build -o /blaze-reset github.com/geniot/blaze-tools/src
+RUN go build -buildvcs=false -o /blaze-reset github.com/geniot/blaze-tools/src
 # =========================================
 # Stage 2: Prepare executable
 # =========================================
