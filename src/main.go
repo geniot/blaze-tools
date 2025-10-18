@@ -23,11 +23,8 @@ import (
 
 var (
 	//go:embed res/*
-	resources  embed.FS
-	Conf       = newConfig()
-	gormDB     *gorm.DB
-	sqlDB      *sql.DB
-	adminEmail = "admin@admin.invalid"
+	resources embed.FS
+	Conf      = newConfig()
 )
 
 func main() {
@@ -35,21 +32,7 @@ func main() {
 		e   = echo.New()
 		err error
 	)
-	//GORM
-	if gormDB, err = gorm.Open(postgres.New(postgres.Config{DSN: Conf.DatabaseUrl}),
-		&gorm.Config{TranslateError: true, Logger: logger.Default.LogMode(logger.Info)}); err != nil {
-		logrus.Fatal(err)
-	}
-	if sqlDB, err = gormDB.DB(); err != nil {
-		logrus.Fatal(err)
-	}
-	sqlDB.SetMaxIdleConns(5)
-	sqlDB.SetMaxOpenConns(20)
 	e.GET("/reset/:token", resetTestDb)
-	//reset on init
-	if err = resetTestDbImpl(Conf.ResetToken); err != nil {
-		logrus.Fatal(err)
-	}
 	if err = e.Start(Conf.ServerHost + ":" + strconv.Itoa(Conf.ServerPort)); err != nil {
 		logrus.Fatal(err)
 	}
@@ -63,6 +46,22 @@ func resetTestDb(e echo.Context) error {
 }
 
 func resetTestDbImpl(token string) error {
+	var (
+		gormDB     *gorm.DB
+		sqlDB      *sql.DB
+		adminEmail = "admin@admin.invalid"
+		err        error
+	)
+	//GORM
+	if gormDB, err = gorm.Open(postgres.New(postgres.Config{DSN: Conf.DatabaseUrl}),
+		&gorm.Config{TranslateError: true, Logger: logger.Default.LogMode(logger.Info)}); err != nil {
+		logrus.Fatal(err)
+	}
+	if sqlDB, err = gormDB.DB(); err != nil {
+		logrus.Fatal(err)
+	}
+	sqlDB.SetMaxIdleConns(5)
+	sqlDB.SetMaxOpenConns(20)
 	if token != Conf.ResetToken {
 		logrus.Fatal("Reset token incorrect, expecting {}", Conf.ResetToken)
 		return errors.New("reset token incorrect")
